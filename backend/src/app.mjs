@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import dotenv from 'dotenv';
 import { xss } from 'express-xss-sanitizer';
+import { connectDb } from './db/database.mjs';
 
 process.on('uncaughtException', (err)=>{
   console.log('Critical system failure, server shutting down.');
@@ -21,6 +22,7 @@ const limiter = rateLimit({
   message: 'Rate Limit Exceeded.',
 });
 
+await connectDb();
 const app = express();
 
 app.use(helmet());
