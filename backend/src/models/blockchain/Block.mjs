@@ -37,13 +37,8 @@ export default class Block {
 
   static adjustDifficultyLevel({ block, timestamp }) {
     const { difficulty } = block;
-
-    // Skydda oss mot negativa svårighetsgrader(difficultylevels)...
     if (difficulty < 1) return 1;
-
-    if (timestamp - block.timestamp > MINE_RATE) {
-      return difficulty - 1;
-    }
+    if (timestamp - block.timestamp > MINE_RATE) return difficulty - 1;
 
     return difficulty + 1;
   }
