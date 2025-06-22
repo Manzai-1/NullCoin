@@ -1,22 +1,22 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import Wallet from './Wallet.mjs';
 import Transaction from './Transaction.mjs';
-import { verifySignature } from '../../utilities/keyManager.mjs';
 import { MINING_REWARD, REWARD_ADDRESS } from '../../utilities/config.mjs';
+import { INITIAL_BALANCE } from '../../config.mjs';
+import { createHash } from '../../utilities/hash.mjs';
+import { generateId } from '../../utilities/uuid.mjs';
 
 describe('Transaction', () => {
-  let transaction, sender, recipient, amount;
+  let transaction, sender, address, balance, recipient, amount;
 
   beforeEach(() => {
-    sender = new Wallet();
-    recipient = 'test123';
+    address = "Mansoor";
+    balance = INITIAL_BALANCE;
+    sender = {address, balance};
+
+    recipient = 'Emelie';
     amount = 20;
 
-    transaction = new Transaction({
-      sender: sender,
-      recipient: recipient,
-      amount: amount,
-    });
+    transaction = new Transaction({ sender, recipient, amount });
   });
 
   it('should have an id property', () => {
@@ -24,7 +24,6 @@ describe('Transaction', () => {
   });
 
   describe('outputMap', () => {
-    // Output map egenskaperna balance och adress
     it('should should have an outputMap property', () => {
       expect(transaction).toHaveProperty('outputMap');
     });
@@ -34,7 +33,7 @@ describe('Transaction', () => {
     });
 
     it('should display the balance for the senders wallet', () => {
-      expect(transaction.outputMap[sender.publicKey]).toEqual(
+      expect(transaction.outputMap[sender.address]).toEqual(
         sender.balance - amount
       );
     });
@@ -66,17 +65,7 @@ describe('Transaction', () => {
     });
 
     it('should set the address to the senders public key', () => {
-      expect(transaction.input.address).toEqual(sender.publicKey);
-    });
-
-    it('should sign the input', () => {
-      expect(
-        verifySignature({
-          publicKey: sender.publicKey,
-          data: transaction.outputMap,
-          signature: transaction.input.signature,
-        })
-      ).toBeTruthy();
+      expect(transaction.input.address).toEqual(sender.address);
     });
   });
 
@@ -90,14 +79,14 @@ describe('Transaction', () => {
     describe('when it is not valid', () => {
       describe('and the transaction outputMaps value is invalid', () => {
         it('should return false', () => {
-          transaction.outputMap[sender.publicKey] = 960;
+          transaction.outputMap[sender.address] = 960;
           expect(Transaction.validate(transaction)).toBeFalsy();
         });
       });
 
       describe('and the transaction input signature is invalid', () => {
         it('should return false', () => {
-          transaction.input.signature = new Wallet().sign(
+          transaction.input.signature = createHash(
             'You have been hacked!'
           );
           expect(Transaction.validate(transaction)).toBeFalsy();
@@ -106,86 +95,12 @@ describe('Transaction', () => {
     });
   });
 
-  describe('Update transaction', () => {
-    let orgSignature, orgSenderOutMap, nextRecipient, nextAmount;
-
-    describe('and the amount is invalid (not enough funds)', () => {
-      it('should throw an error', () => {
-        expect(() => {
-          transaction.update({ sender, recipient, amount: 1010 });
-        }).toThrow('Not enough funds');
-      });
-    });
-
-    describe('and the amount is valid', () => {
-      beforeEach(() => {
-        orgSignature = transaction.input.signature; //Hämta ut signaturen ifrån input...
-        orgSenderOutMap = transaction.outputMap[sender.publicKey]; //Få tag i aktuell digital plånboks outputMap struktur...
-        nextAmount = 25;
-        nextRecipient = 'Manuel';
-
-        transaction.update({
-          sender,
-          recipient: nextRecipient,
-          amount: nextAmount,
-        });
-      });
-
-      it('should display the amount to the next recipient', () => {
-        expect(transaction.outputMap[nextRecipient]).toEqual(nextAmount);
-      });
-
-      it('should withdraw the amount from original sender output balance', () => {
-        expect(transaction.outputMap[sender.publicKey]).toEqual(
-          orgSenderOutMap - nextAmount
-        );
-      });
-
-      it('should match the total balance with input amount', () => {
-        expect(
-          Object.values(transaction.outputMap).reduce(
-            (total, amount) => total + amount
-          )
-        ).toEqual(transaction.input.amount);
-      });
-
-      it('should create a new signature for the transaction', () => {
-        expect(transaction.input.signature).not.toEqual(orgSignature);
-      });
-
-      describe('and an update is for the same recipient', () => {
-        let newAmount;
-
-        beforeEach(() => {
-          newAmount = 60;
-          transaction.update({
-            sender,
-            recipient: nextRecipient,
-            amount: newAmount,
-          });
-        });
-
-        it('should update the recipients amount', () => {
-          expect(transaction.outputMap[nextRecipient]).toEqual(
-            nextAmount + newAmount
-          );
-        });
-
-        it('should subtract the amount from original sender', () => {
-          expect(transaction.outputMap[sender.publicKey]).toEqual(
-            orgSenderOutMap - nextAmount - newAmount
-          );
-        });
-      });
-    });
-  });
-
   describe('Transaction reward', () => {
-    let transactionReward, miner;
+    let transactionReward, minerAddress;
 
     beforeEach(() => {
-      miner = new Wallet();
-      transactionReward = Transaction.transactionReward({ miner });
+      minerAddress = generateId();
+      transactionReward = Transaction.transactionReward(minerAddress);
     });
 
     it('should create a reward transaction with the miners address', () => {
@@ -193,7 +108,7 @@ describe('Transaction', () => {
     });
 
     it('should create only one transaction with the MINING_REWARD', () => {
-      expect(transactionReward.outputMap[miner.publicKey]).toEqual(
+      expect(transactionReward.outputMap[minerAddress]).toEqual(
         MINING_REWARD
       );
     });

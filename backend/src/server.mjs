@@ -6,18 +6,16 @@ import authRouter from './routes/auth-routes.mjs';
 import blockchainRoutes from './routes/blockchain-routes.mjs';
 import transactionRoutes from './routes/transaction-routes.mjs';
 import Blockchain from "./models/blockchain/Blockchain.mjs";
-import Wallet from "./models/wallet/Wallet.mjs";
 import networkServer from "./network.mjs";
 import TransactionPool from "./models/wallet/TransactionPool.mjs";
 import AppError from "./models/AppError.mjs";
+import { generateId } from "./utilities/uuid.mjs";
 
 export const blockchain = new Blockchain();
 export const transactionPool = new TransactionPool();
-export const wallet = new Wallet();
 export const server = new networkServer({
   blockchain: blockchain,
   transactionPool,
-  wallet,
 });
 
 const DEFAULT_PORT = 3002;
@@ -66,6 +64,6 @@ app.listen(PORT, () => {
 
 process.on('unhandledRejection', (err) => {
   console.log(err.name, err.message);
+  server.shutDown();
   process.exit(1);
-  //server.close(() => process.exit(1));
 });
