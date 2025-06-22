@@ -1,12 +1,12 @@
 import { INITIAL_BALANCE } from '../../utilities/config.mjs';
-import { keyMgr } from '../../utilities/keyManager.mjs';
+import { getKeyMgr } from '../../utilities/keyManager.mjs';
 import { createHash } from '../../utilities/hash.mjs';
 import Transaction from './Transaction.mjs';
 
 export default class Wallet {
-  constructor() {
-    this.balance = INITIAL_BALANCE;
-    this.keyPair = keyMgr.genKeyPair();
+  constructor(privateKeyHex=null, balance=null) {
+    this.balance = balance || INITIAL_BALANCE;
+    this.keyPair = getKeyMgr(privateKeyHex);
     this.publicKey = this.keyPair.getPublic().encode('hex');
   }
 

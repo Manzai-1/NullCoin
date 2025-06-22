@@ -20,7 +20,7 @@ export const server = new networkServer({
   wallet,
 });
 
-const DEFAULT_PORT = 3002;
+const DEFAULT_PORT = 3003;
 const ROOT_NODE = `http://localhost:${DEFAULT_PORT}`;
 let NODE_PORT;
 

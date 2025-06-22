@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'node', 'admin'],
+    enum: ['user', 'miner', 'admin'],
     default: 'user'
   },
   password: {
@@ -20,12 +20,17 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     select: false
   },
+  privateKeyHex: {
+    type: String,
+    select: false
+  },
 });
 
 userSchema.pre('save', async function(next){
   if(!this.isModified('password')) return next();
 
   this.password = await bcrypt.hash(this.password, 12);
+
   next();
 });
 

@@ -53,12 +53,8 @@ export default class Network {
             });
             break;
           case CHANNELS.TRANSACTION:
-            if (
-              !this.transactionPool.transactionExists({
-                address: this.wallet.publicKey,
-              })
-            ) {
-              this.transactionPool.addTransaction(msg);
+            if (!this.transactionPool.transactionExists({address: this.wallet.publicKey})) { 
+              this.transactionPool.addTransaction(msg); 
             }
             break;
           default:
