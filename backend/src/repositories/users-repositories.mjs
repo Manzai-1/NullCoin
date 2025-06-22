@@ -1,4 +1,4 @@
-import userModel from '../models/userModel.mjs';
+import userModel from '../models/schema/userModel.mjs';
 
 export default class UserRepository {
 	async add(user) {

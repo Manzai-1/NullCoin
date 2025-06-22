@@ -1,25 +1,27 @@
-import { transactionPool, wallet, server, blockchain } from '../server.mjs';
+import { transactionPool, server, blockchain } from '../server.mjs';
 import Miner from '../models/miner/Miner.mjs';
 import Wallet from '../models/wallet/Wallet.mjs';
 
 export const addTransaction = (req, res) => {
   const { amount, recipient } = req.body;
+  const address = req.user.username;
+
   let transaction = transactionPool.transactionExists({
-    address: wallet.publicKey,
+    address,
   });
 
   try {
-    if (transaction) {
-      transaction.update({ sender: wallet, recipient, amount });
-    } else {
-      transaction = wallet.createTransaction({ recipient, amount });
+    if (!transaction) {
+      transaction = Wallet.createTransaction({ 
+        address, recipient, amount, chain: blockchain.chain 
+      });
     }
   } catch (error) {
     return res
       .status(400)
       .json({ success: false, statusCode: 400, error: error.message });
   }
-
+  transaction.recipient = recipient;
   transactionPool.addTransaction(transaction);
   server.broadcastTransaction(transaction);
 
@@ -27,7 +29,7 @@ export const addTransaction = (req, res) => {
 };
 
 export const getWalletInfo = (req, res) => {
-  const address = wallet.publicKey;
+  const address = req.user.username;
   const balance = Wallet.calculateBalance({
     chain: blockchain.chain,
     address: address,
@@ -38,7 +40,7 @@ export const getWalletInfo = (req, res) => {
     .json({
       success: true,
       statusCode: 200,
-      data: { address: address, balance: balance },
+      data: { address, balance },
     });
 };
 
@@ -51,11 +53,13 @@ export const listAllTransactions = (req, res) => {
 };
 
 export const mineTransactions = (req, res) => {
+  const address = req.user.username;
+
   const miner = new Miner({
-    transactionPool: transactionPool,
-    wallet: wallet,
-    blockchain: blockchain,
-    server: server,
+    transactionPool,
+    wallet: address,
+    blockchain,
+    server,
   });
 
   miner.mineTransactions();
@@ -63,6 +67,6 @@ export const mineTransactions = (req, res) => {
   res.status(200).json({
     success: true,
     statusCode: 200,
-    data: 'Det verkar fungerar🤔.',
+    data: blockchain.chain.at(-1),
   });
 };

@@ -13,14 +13,17 @@ const credentials = {
 };
 
 export default class Network {
-  constructor({ blockchain, transactionPool, wallet }) {
+  constructor({ blockchain, transactionPool }) {
     this.blockchain = blockchain;
     this.transactionPool = transactionPool;
-    this.wallet = wallet;
 
     this.pubnub = new PubNub(credentials);
     this.pubnub.subscribe({ channels: Object.values(CHANNELS) });
     this.pubnub.addListener(this.handleMessage());
+  }
+
+  shutDown() {
+    this.pubnub.unsubscribeAll();
   }
 
   broadcastChain() {
@@ -55,7 +58,7 @@ export default class Network {
           case CHANNELS.TRANSACTION:
             if (
               !this.transactionPool.transactionExists({
-                address: this.wallet.publicKey,
+                address: msg.input.address,
               })
             ) {
               this.transactionPool.addTransaction(msg);

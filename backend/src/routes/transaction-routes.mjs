@@ -11,11 +11,11 @@ import { authorizeRole } from '../middleware/authorizeRole.mjs';
 const router = express.Router();
 
 router.route('/transactions')
-  .post(authenticateToken, authorizeRole('user, admin'), addTransaction)
-  .get(authenticateToken, authorizeRole('user, admin'), listAllTransactions);
+  .post(authenticateToken, addTransaction)
+  .get(authenticateToken, listAllTransactions);
 
 router.route('/transactions/mine')
-  .get(authenticateToken, authorizeRole('miner, admin'), mineTransactions);
+  .get(authenticateToken, mineTransactions);
 
 router.route('/info')
   .get(authenticateToken, getWalletInfo);
