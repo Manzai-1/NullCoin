@@ -6,10 +6,10 @@ export default class UserRepository {
 		return { ...user, password: undefined };
 	}
 
-	async find(email, login) {
+	async find(username, login) {
 		return login === true
-			? await userModel.findOne({ email: email }).select('+password')
-			: await userModel.findOne({ email: email });
+			? await userModel.findOne({ username }).select('+password')
+			: await userModel.findOne({ username });
 	}
 
 	async findById(id) {

@@ -4,15 +4,15 @@ import UserRepository from '../repositories/users-repositories.mjs';
 import { createToken } from '../utilities/jwt.mjs';
 
 export const loginUser = catchErrorAsync(async (req, res, next) => {
-	const { email, password } = req.body;
+	const { username, password } = req.body;
 
-	if (!email || !password)
-		return next(new AppError('Email or password is missing', 400));
+	if (!username || !password)
+		return next(new AppError('Username or password is missing', 400));
 
-	const user = await new UserRepository().find(email, true);
+	const user = await new UserRepository().find(username, true);
 
 	if (!user || !(await user.checkPassword(password, user.password))) {
-		return next(new AppError('Email or password is wrong', 401));
+		return next(new AppError('Username or password is wrong', 401));
 	}
 
 	const token = createToken(user._id);

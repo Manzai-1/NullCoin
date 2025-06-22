@@ -11,3 +11,32 @@ Method: GET Url: /api/v1/nodes/ Date: 2025-06-21 Time: 17:00:28 Success: undefin
 Method: GET Url: /api/v1/nodes/ Date: 2025-06-21 Time: 17:01:09 Success: false - Message: You must be logged in.
 Method: POST Url: /api/v1/nodes/ Date: 2025-06-21 Time: 17:01:15 Success: false - Message: You must be logged in.
 Method: POST Url: /api/v1/nodes/ Date: 2025-06-21 Time: 17:03:12 Success: false - Message: You are not authorized.
+Method: POST Url: /api/v1/users/ Date: 2025-06-21 Time: 19:23:00 Success: undefined - Message: User validation failed: email: Email is required
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 19:23:00 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/users/ Date: 2025-06-21 Time: 19:24:09 Success: undefined - Message: User validation failed: user: Email is required
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 19:24:09 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 19:25:46 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/users/ Date: 2025-06-21 Time: 21:23:19 Success: undefined - Message: E11000 duplicate key error collection: nullcoin.users index: email_1 dup key: { email: null }
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:23:19 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/users/ Date: 2025-06-21 Time: 21:23:23 Success: undefined - Message: E11000 duplicate key error collection: nullcoin.users index: email_1 dup key: { email: null }
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:23:23 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:24:38 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:25:08 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:25:41 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:25:48 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:27:20 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:28:44 Success: false - Message: Email or password is missing
+Method: POST Url: /api/v1/users/ Date: 2025-06-21 Time: 21:44:00 Success: undefined - Message: User validation failed: password: Password is required, username: Username is required
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:44:00 Success: false - Message: Username or password is missing
+Method: POST Url: /api/v1/users/ Date: 2025-06-21 Time: 21:44:02 Success: undefined - Message: User validation failed: password: Password is required, username: Username is required
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:44:02 Success: false - Message: Username or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:47:06 Success: false - Message: Username or password is missing
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:47:16 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth/ Date: 2025-06-21 Time: 21:47:56 Success: undefined - Message: Expected double-quoted property name in JSON at position 67 (line 4 column 1)
+Method: GET Url: /api/wallet/info Date: 2025-06-22 Time: 02:27:21 Success: undefined - Message: AppError is not defined
+Method: GET Url: /api/wallet/info Date: 2025-06-22 Time: 02:31:40 Success: undefined - Message: AppError is not defined
+Method: GET Url: /api/wallet/info Date: 2025-06-22 Time: 02:32:17 Success: false - Message: Resource not found, /api/wallet/info
+Method: GET Url: /api/blocks Date: 2025-06-22 Time: 02:52:48 Success: false - Message: Resource not found, /api/blocks
+Method: GET Url: /api/blocks Date: 2025-06-22 Time: 02:53:43 Success: false - Message: Resource not found, /api/blocks
+Method: GET Url: /api/blocks Date: 2025-06-22 Time: 02:54:00 Success: false - Message: Resource not found, /api/blocks
+Method: GET Url: /api/blocks Date: 2025-06-22 Time: 02:56:19 Success: false - Message: Resource not found, /api/blocks
