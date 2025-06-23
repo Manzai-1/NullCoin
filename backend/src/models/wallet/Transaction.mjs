@@ -23,10 +23,10 @@ export default class Transaction {
     return true;
   }
 
-  static transactionReward(minerAddress) {
+  static transactionReward({miner}) {
     return new this({
       input: REWARD_ADDRESS,
-      outputMap: { [minerAddress]: MINING_REWARD },
+      outputMap: { [miner]: MINING_REWARD },
     });
   }
 

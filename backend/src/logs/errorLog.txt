@@ -77,3 +77,14 @@ Method: GET Url: /api/v1/wallet/transactions Date: 2025-06-22 Time: 22:23:06 Suc
 Method: GET Url: /api/v1/wallet/transactions Date: 2025-06-22 Time: 22:24:27 Success: false - Message: You must be logged in.
 Method: GET Url: /api/v1/wallet/transactions Date: 2025-06-22 Time: 22:25:03 Success: false - Message: You must be logged in.
 Method: GET Url: /api/v1/wallet/transactions Date: 2025-06-22 Time: 22:25:39 Success: false - Message: You must be logged in.
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:34:09 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:36:14 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:37:04 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:38:46 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:40:06 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:42:30 Success: undefined - Message: Cannot destructure property 'transactionPool' of 'undefined' as it is undefined.
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:42:32 Success: undefined - Message: Cannot destructure property 'transactionPool' of 'undefined' as it is undefined.
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:43:50 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:45:48 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:50:46 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
+Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:58:19 Success: undefined - Message: Cannot read properties of undefined (reading 'transactionMap')

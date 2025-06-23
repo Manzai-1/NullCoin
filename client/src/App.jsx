@@ -12,8 +12,10 @@ function App() {
 		address: undefined,
 		balance: undefined,
 	});
-
-  let txRecipient, txAmount = undefined;
+	const [transaction, setTransaction] = useState({
+		recipient: undefined,
+		amount: undefined
+	});
 
 	const handleUpdatePort = (e) => {
 		e.preventDefault();
@@ -71,16 +73,16 @@ function App() {
 		}
 	};
 
-  const handleUpdateWallet = async () => {
-    try {
+	const handleUpdateWallet = async () => {
+		try {
 			const response = await fetch(
 				`http://localhost:${port}/api/v1/wallet/info`,
 				{
 					method: 'GET',
-					headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + user.token
-          }
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'bearer ' + user.token,
+					},
 				}
 			);
 
@@ -90,25 +92,29 @@ function App() {
 				console.error('Error: ', response);
 			}
 
-			setUser({ ...user, address: result.data.address, balance: result.data.balance });
+			setUser({
+				...user,
+				address: result.data.address,
+				balance: result.data.balance,
+			});
 		} catch (err) {
 			console.error(err);
 		}
-  }
+	};
 
-  const handleTransaction = async () => {
-    try {
+	const handleTransaction = async () => {
+		try {
 			const response = await fetch(
 				`http://localhost:${port}/api/v1/wallet/transactions`,
 				{
 					method: 'POST',
-					headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + user.token
-          },
-          body: JSON.stringify({
-						address: txRecipient,
-						amount: txAmount,
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'bearer ' + user.token,
+					},
+					body: JSON.stringify({
+						recipient: transaction.recipient,
+						amount: transaction.amount,
 					}),
 				}
 			);
@@ -119,18 +125,18 @@ function App() {
 		} catch (err) {
 			console.error(err);
 		}
-  }
+	};
 
-  const handleUpdateMemPool = async () => {
-    try {
+	const handleUpdateMemPool = async () => {
+		try {
 			const response = await fetch(
 				`http://localhost:${port}/api/v1/wallet/transactions`,
 				{
 					method: 'GET',
-					headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + user.token
-          }
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'bearer ' + user.token,
+					},
 				}
 			);
 
@@ -139,33 +145,31 @@ function App() {
 			if (!response.ok) {
 				console.error('Error: ', response);
 			} else {
-        console.log('TX RESULT: ', result);
-      }
-
-			
+				console.log('TX RESULT: ', result);
+			}
 		} catch (err) {
 			console.error(err);
 		}
-  }
+	};
 
-  const handleMine = async () => {
-    try {
+	const handleMine = async () => {
+		try {
 			await fetch(
 				`http://localhost:${port}/api/v1/wallet/transactions/mine`,
 				{
 					method: 'GET',
-					headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + user.token
-          }
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'bearer ' + user.token,
+					},
 				}
 			);
 
-      await handleUpdateMemPool();
+			await handleUpdateMemPool();
 		} catch (err) {
 			console.error(err);
 		}
-  }
+	};
 
 	return (
 		<>
@@ -249,41 +253,75 @@ function App() {
 
 			<main>
 				<section className='wallet-section'>
-          <h2>Wallet</h2>
+					<h2>Wallet</h2>
 					<div>
-            {/* <label>{`Address: ${user.address ? `${user.address.slice(0, 6)}...${user.address.slice(-4)}` : 'N/A'}`}</label> */}
-            <label>{`Address: ${user.address ? user.address : 'N/A'}`}</label>
+						{/* <label>{`Address: ${user.address ? `${user.address.slice(0, 6)}...${user.address.slice(-4)}` : 'N/A'}`}</label> */}
+						<label>{`Address: ${
+							user.address ? user.address : 'N/A'
+						}`}</label>
 					</div>
 					<div>
-            <label>{`Balance: ${user.address ? user.balance : 'N/A'} $Nulls`}</label>
+						<label>{`Balance: ${
+							user.address ? user.balance : 'N/A'
+						} $Nulls`}</label>
 					</div>
 					<button
 						className='login-button'
-            disabled={user.token ? false : true}
+						disabled={user.token ? false : true}
 						onClick={handleUpdateWallet}>
 						{'Refresh'}
 					</button>
 				</section>
-			
-        <section className='transaction-section'>
-          <h2>Transaction</h2>
-          <div>
-            <input type='text' placeholder='Address' disabled={user.token ? false : true} required onChange={(e)=>{
-                txRecipient = e.target.value;
-            }}/>
-            <input type='text' placeholder='Amount' disabled={user.token ? false : true} required onChange={(e)=>{
-                txAmount = e.target.value;
-            }}/>
-            <button onClick={handleTransaction} disabled={user.token ? false : true}>Send</button>
-          </div>
-        </section>
 
-        <section className='mempool-section'>
-          <h2>Transaction Pool</h2>
-          <button onClick={handleUpdateMemPool} disabled={user.token ? false : true}>Refresh Table</button>
-          <button onClick={handleMine} disabled={user.token ? false : true}>Mine Transactions</button>
-        </section>
-      </main>
+				<section className='transaction-section'>
+					<h2>Transaction</h2>
+					<div>
+						<input
+							type='text'
+							placeholder='Recipient'
+							disabled={user.token ? false : true}
+							required
+							onChange={(e) => {
+								setTransaction({
+									...transaction,
+									recipient: e.target.value
+								});
+							}}
+						/>
+						<input
+							type='text'
+							placeholder='Amount'
+							disabled={user.token ? false : true}
+							required
+							onChange={(e) => {
+								setTransaction({
+									...transaction,
+									amount: e.target.value
+								});
+							}}
+						/>
+						<button
+							onClick={handleTransaction}
+							disabled={user.token ? false : true}>
+							Send
+						</button>
+					</div>
+				</section>
+
+				<section className='mempool-section'>
+					<h2>Transaction Pool</h2>
+					<button
+						onClick={handleUpdateMemPool}
+						disabled={user.token ? false : true}>
+						Refresh Table
+					</button>
+					<button
+						onClick={handleMine}
+						disabled={user.token ? false : true}>
+						Mine Transactions
+					</button>
+				</section>
+			</main>
 		</>
 	);
 }

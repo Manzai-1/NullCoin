@@ -96,11 +96,11 @@ describe('Transaction', () => {
   });
 
   describe('Transaction reward', () => {
-    let transactionReward, minerAddress;
+    let transactionReward, miner;
 
     beforeEach(() => {
-      minerAddress = generateId();
-      transactionReward = Transaction.transactionReward(minerAddress);
+      miner = generateId();
+      transactionReward = Transaction.transactionReward({miner});
     });
 
     it('should create a reward transaction with the miners address', () => {
@@ -108,7 +108,7 @@ describe('Transaction', () => {
     });
 
     it('should create only one transaction with the MINING_REWARD', () => {
-      expect(transactionReward.outputMap[minerAddress]).toEqual(
+      expect(transactionReward.outputMap[miner]).toEqual(
         MINING_REWARD
       );
     });

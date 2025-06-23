@@ -10,11 +10,7 @@ export default class Wallet {
 			const block = chain[i];
 
 			for (let transaction of block.data) {
-				console.log('TX: ', transaction);
-
-				if (transaction.input.address === address) {
-					hasMadeTransaction = true;
-				}
+				if (transaction.input.address === address) hasMadeTransaction = true;
 
 				const amount = transaction.outputMap[address];
 

@@ -9,7 +9,6 @@ import Blockchain from "./models/blockchain/Blockchain.mjs";
 import networkServer from "./network.mjs";
 import TransactionPool from "./models/wallet/TransactionPool.mjs";
 import AppError from "./models/AppError.mjs";
-import { generateId } from "./utilities/uuid.mjs";
 
 export const blockchain = new Blockchain();
 export const transactionPool = new TransactionPool();
