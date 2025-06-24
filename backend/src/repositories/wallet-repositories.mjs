@@ -21,8 +21,7 @@ export default class WalletRepositories {
 		} catch (error) {
 			throw new AppError(error.message, 400);
 		}
-
-		transaction.recipient = recipient;
+		
 		transactionPool.addTransaction(transaction);
 		server.broadcastTransaction(transaction);
 
