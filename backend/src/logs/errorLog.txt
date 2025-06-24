@@ -90,3 +90,11 @@ Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:50:4
 Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:58:19 Success: undefined - Message: Cannot read properties of undefined (reading 'transactionMap')
 Method: GET Url: /api/v1/wallet/history Date: 2025-06-24 Time: 12:39:45 Success: undefined - Message: block.transactions is not iterable
 Method: GET Url: /api/v1/wallet/history Date: 2025-06-24 Time: 13:05:14 Success: undefined - Message: chain.foreach is not a function
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:06:45 Success: undefined - Message: newBlock is not defined
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:06:47 Success: undefined - Message: newBlock is not defined
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:35:14 Success: undefined - Message: newBlock is not defined
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:35:16 Success: undefined - Message: newBlock is not defined
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:39:51 Success: undefined - Message: newBlock is not defined
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:39:53 Success: undefined - Message: newBlock is not defined
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:58:29 Success: undefined - Message: newBlock is not defined
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:59:39 Success: undefined - Message: newBlock is not defined
