@@ -1,7 +1,6 @@
-import { blockchain } from '../server.mjs';
-import { parseChain } from '../utilities/parseChain.mjs';
+import BlockRepositories from "../repositories/block-repositories.mjs";
 
 export const listAllBlocks = (req, res) => {
-  const chain = parseChain(blockchain.chain);
+  const chain = new BlockRepositories().listAllBlocks();
   res.status(200).json({ success: true, data: chain });
 };

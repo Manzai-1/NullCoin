@@ -6,5 +6,6 @@ import { authorizeRole } from '../middleware/authorizeRole.mjs';
 const router = Router();
 
 router.route('/').get(listAllBlocks);
+router.route('/backup').get(listAllBlocks);
 
 export default router;

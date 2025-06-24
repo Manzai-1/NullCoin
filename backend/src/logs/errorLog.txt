@@ -88,3 +88,5 @@ Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:43:5
 Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:45:48 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
 Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:50:46 Success: undefined - Message: Cannot read properties of undefined (reading 'validateTransactions')
 Method: GET Url: /api/v1/wallet/transactions/mine Date: 2025-06-24 Time: 00:58:19 Success: undefined - Message: Cannot read properties of undefined (reading 'transactionMap')
+Method: GET Url: /api/v1/wallet/history Date: 2025-06-24 Time: 12:39:45 Success: undefined - Message: block.transactions is not iterable
+Method: GET Url: /api/v1/wallet/history Date: 2025-06-24 Time: 13:05:14 Success: undefined - Message: chain.foreach is not a function

@@ -5,6 +5,7 @@ import userRouter from './routes/users-routes.mjs';
 import authRouter from './routes/auth-routes.mjs';
 import blockchainRoutes from './routes/blockchain-routes.mjs';
 import transactionRoutes from './routes/transaction-routes.mjs';
+import walletRoutes from './routes/wallet-routes.mjs';
 import Blockchain from "./models/blockchain/Blockchain.mjs";
 import networkServer from "./network.mjs";
 import TransactionPool from "./models/wallet/TransactionPool.mjs";
@@ -24,7 +25,8 @@ let NODE_PORT;
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/blocks', blockchainRoutes);
-app.use('/api/v1/wallet', transactionRoutes);
+app.use('/api/v1/wallet', walletRoutes);
+app.use('/api/v1/mempool', transactionRoutes);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Resource not found, ${req.originalUrl}`,404));

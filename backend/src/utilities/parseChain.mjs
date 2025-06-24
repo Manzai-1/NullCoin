@@ -4,7 +4,7 @@ export const parseChain = (chain) => {
 			block_number: i,
 			timestamp: new Date(block.timestamp).toLocaleString('sv-SE'),
 			hash: block.hash,
-			Transactions: block.data.map((tx, j) => {
+			transactions: block.data.map((tx, j) => {
 				const addresses = Object.keys(tx.outputMap);
 
 				return {
@@ -18,3 +18,4 @@ export const parseChain = (chain) => {
 		};
 	});
 };
+
