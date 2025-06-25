@@ -1,5 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
+import { httpFetch } from './services/http.mjs';
+import { LoginModal } from './components/LoginModal.jsx';
+import {BlockDiv} from './components/BlockDiv.jsx';
+import {Button} from './components/Button.jsx';
+import {TableHead} from './components/TableHead.jsx';
+import {TableRow} from './components/TableRow.jsx';
 
 function App() {
 	const [port, setPort] = useState(3002);
@@ -11,6 +17,8 @@ function App() {
 		address: undefined,
 		balance: undefined,
 	});
+	const [showLoginModal, setShowLoginModal] = useState(false);
+
 	const [transaction, setTransaction] = useState({
 		recipient: undefined,
 		amount: undefined,
@@ -21,225 +29,189 @@ function App() {
 	const [userBlocks, setUserBlocks] = useState([]);
 	const [chain, setChain] = useState([]);
 
-	const handleUpdatePort = (e) => {
-		e.preventDefault();
-		console.log('UPDATED PORT');
+	useEffect(()=>{
+		if(!user.token) return;
+
+		const updateUI = async () => {
+			await handleUpdateWallet();
+			await handleWalletHistory();
+			await handleUpdateMemPool();
+			await handleUpdateChain();
+		}
+
+		updateUI();
+	},[user.token]);
+
+	const updatePassword = (e) => {
+		setUser({
+			...user,
+			password: e.target.value,
+		});
+	};
+	const updateUsername = (e) => {
+		setUser({
+			...user,
+			username: e.target.value,
+		});
+	};
+	const updateRole = (e) => {
+		setUser({
+			...user,
+			role: e.target.value,
+		});
 	};
 
 	const handleRegisterUser = async () => {
-		try {
-			const response = await fetch(
-				`http://localhost:${port}/api/v1/users`,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						username: user.username,
-						password: user.password,
-						role: user.role,
-					}),
-				}
-			);
+		const result = await httpFetch({
+			port,
+			endpoint: 'users',
+			method: 'POST',
+			body: {
+				username: user.username,
+				password: user.password,
+				role: user.role,
+			},
+		});
 
-			if (!response.ok) {
-				console.error('Error: ', response);
-			} else {
-				await handleLoginUser();
-			}
-		} catch (err) {
-			console.error(err);
+		if (result.ok) {
+			await handleLoginUser();
+		} else {
+			alert(result.data);
 		}
 	};
 
 	const handleLoginUser = async () => {
-		try {
-			const response = await fetch(
-				`http://localhost:${port}/api/v1/auth`,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						username: user.username,
-						password: user.password,
-					}),
-				}
-			);
+		const result = await httpFetch({
+			port,
+			endpoint: 'auth',
+			method: 'POST',
+			body: {
+				username: user.username,
+				password: user.password,
+			},
+		});
 
-			const result = await response.json();
-
-			if (!response.ok) {
-				console.error('Error: ', response);
-			}
-
-			setUser({ ...user, token: result.data.token });
-		} catch (err) {
-			console.error(err);
+		if (result.ok) {
+			setUser((user)=>({ ...user, token: result.data.token }));
+		} else {
+			alert(result.data);
 		}
 	};
 
 	const handleUpdateWallet = async () => {
-		try {
-			const response = await fetch(
-				`http://localhost:${port}/api/v1/wallet`,
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: 'bearer ' + user.token,
-					},
-				}
-			);
+		const result = await httpFetch({
+			port,
+			endpoint: 'wallet',
+			method: 'GET',
+			auth: `bearer ${user.token}`,
+		});
 
-			const result = await response.json();
-
-			if (!response.ok) {
-				console.error('Error: ', response);
-			}
-
+		if (result.ok) {
 			setUser({
 				...user,
 				address: result.data.address,
 				balance: result.data.balance,
 			});
-		} catch (err) {
-			console.error(err);
+		} else {
+			alert(result.data);
 		}
 	};
 
 	const handleWalletHistory = async () => {
-	try {
-		const response = await fetch(
-			`http://localhost:${port}/api/v1/wallet/history`,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'bearer ' + user.token,
-				},
-			}
-		);
+		const result = await httpFetch({
+			port,
+			endpoint: 'wallet/history',
+			method: 'GET',
+			auth: `bearer ${user.token}`,
+		});
 
-		const result = await response.json();
-		console.log(result.data);
-		
-		if (!response.ok) {
-			console.error('Error: ', response);
-		} else {
+		if (result.ok) {
 			setUserTxs(result.data.transactions);
 			setUserBlocks(result.data.minedBlocks);
+		} else {
+			alert(result.data);
 		}
-
-	} catch (err) {
-		console.error(err);
-	}
 	};
 
 	const handleTransaction = async () => {
-		try {
-			const response = await fetch(
-				`http://localhost:${port}/api/v1/wallet`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: 'bearer ' + user.token,
-					},
-					body: JSON.stringify({
-						recipient: transaction.recipient,
-						amount: transaction.amount,
-					}),
-				}
-			);
+		const result = await httpFetch({
+			port,
+			endpoint: 'wallet',
+			method: 'POST',
+			auth: `bearer ${user.token}`,
+			body: {
+				recipient: transaction.recipient,
+				amount: transaction.amount,
+			},
+		});
 
-			if (!response.ok) {
-				console.error('Error: ', response);
-			}
-		} catch (err) {
-			console.error(err);
+		if (result.ok) {
+			await handleUpdateMemPool();
+		} else {
+			alert(result.data);
 		}
 	};
 
 	const handleUpdateMemPool = async () => {
-		try {
-			const response = await fetch(
-				`http://localhost:${port}/api/v1/mempool`,
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: 'bearer ' + user.token,
-					},
-				}
-			);
+		const result = await httpFetch({
+			port,
+			endpoint: 'mempool',
+			method: 'GET',
+			auth: `bearer ${user.token}`,
+		});
 
-			const result = await response.json();
-			console.log('MEMPOOL: ', result.data);
-
-			if (!response.ok) {
-				console.error('Error: ', response);
-			} else {
-				setMemPool(result.data);
-			}
-		} catch (err) {
-			console.error(err);
+		if (result.ok) {
+			setMemPool(result.data);
+		} else {
+			alert(result.data);
 		}
 	};
 
 	const handleMine = async () => {
-		try {
-			await fetch(`http://localhost:${port}/api/v1/mempool/mine`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'bearer ' + user.token,
-				},
-			});
-		} catch (err) {
-			console.error(err);
-		}
+		const result = await httpFetch({
+			port,
+			endpoint: 'mempool/mine',
+			method: 'GET',
+			auth: `bearer ${user.token}`,
+		});
+
+		if (result.ok){
+			await handleUpdateWallet();
+			await handleWalletHistory();
+			await handleUpdateMemPool();
+			await handleUpdateChain();
+		} else{ 
+			alert(result.data)
+		};
 	};
 
 	const handleUpdateChain = async () => {
-	try {
-		const response = await fetch(
-			`http://localhost:${port}/api/v1/blocks`,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'bearer ' + user.token,
-				},
-			}
-		);
+		const result = await httpFetch({
+			port,
+			endpoint: 'blocks',
+			method: 'GET',
+			auth: `bearer ${user.token}`,
+		});
 
-		const result = await response.json();
-		
-		if (!response.ok) {
-			console.error('Error: ', response);
-		} else {
+		if (result.ok) {
 			setChain(result.data);
+		} else {
+			alert(result.data);
 		}
-
-	} catch (err) {
-		console.error(err);
-	}
 	};
-
 
 	return (
 		<>
 			<nav>
 				<div className='port-div'>
-					<form className='port-form' onSubmit={handleUpdatePort}>
-						<input
-							type='text'
-							defaultValue={port}
-							onChange={(e) => {
-								setPort(e.target.value);
-							}}
-						/>
-						<button type='submit'>Update Port</button>
-					</form>
+					<input
+						type='text'
+						defaultValue={port}
+						onChange={(e) => {
+							setPort(e.target.value);
+						}}
+					/>
+					<button type='submit'>Update Port</button>
 				</div>
 
 				<div className='login-div'>
@@ -247,61 +219,39 @@ function App() {
 						<>
 							<input
 								type='text'
-								value={user.token ? user.token : ''}
+								value={user.token}
 								disabled={true}
 							/>
-							<button
-								className='login-button'
-								onClick={() => {
+							<Button
+								text='Logout'
+								action={() => {
 									setUser({});
-								}}>
-								{'Logout'}
-							</button>
+								}}
+								disable={false}
+							/>
 						</>
 					) : (
-						<div>
-							<input
-								type='text'
-								defaultValue={user.username}
-								placeholder='username'
-								onChange={(e) => {
-									setUser({
-										...user,
-										username: e.target.value,
-									});
+						<>
+							<Button
+								text='Login / Register'
+								disable={false}
+								action={() => {
+									setShowLoginModal(true);
 								}}
 							/>
-							<input
-								type='text'
-								defaultValue={user.password}
-								placeholder='password'
-								onChange={(e) => {
-									setUser({
-										...user,
-										password: e.target.value,
-									});
-								}}
-							/>
-							<input
-								type='text'
-								defaultValue={user.role}
-								placeholder='role'
-								onChange={(e) => {
-									setUser({ ...user, role: e.target.value });
-								}}
-							/>
-							<button
-								className='login-button'
-								onClick={handleRegisterUser}>
-								Register
-							</button>
-
-							<button
-								className='login-button'
-								onClick={handleLoginUser}>
-								Login
-							</button>
-						</div>
+							{showLoginModal && (
+								<LoginModal
+									updateUsername={updateUsername}
+									updatePassword={updatePassword}
+									updateRole={updateRole}
+									handleRegisterUser={handleRegisterUser}
+									handleLoginUser={handleLoginUser}
+									onClose={() => {
+										setShowLoginModal(false);
+									}}
+								/>
+							)}
+						</>
 					)}
 				</div>
 			</nav>
@@ -329,7 +279,7 @@ function App() {
 
 				<section className='transaction-section'>
 					<h2>Transaction</h2>
-					<div>
+					<div className='transaction-div'>
 						<input
 							type='text'
 							placeholder='Recipient'
@@ -375,19 +325,28 @@ function App() {
 						Mine Transactions
 					</button>
 					<table>
-						<TableHead 
-							items={['timestamp','from','to','amount']}>
-						</TableHead>
+						<TableHead
+							items={[
+								'timestamp',
+								'from',
+								'to',
+								'amount',
+							]}></TableHead>
 						<tbody>
 							{memPool.map((tx, index) => (
-								<TableRow key={index}
-									items={[tx.timestamp,tx.address,tx.recipient,tx.amount]}
-								></TableRow>
+								<TableRow
+									key={index}
+									items={[
+										tx.timestamp,
+										tx.address,
+										tx.recipient,
+										tx.amount,
+									]}></TableRow>
 							))}
 						</tbody>
 					</table>
 				</section>
-				
+
 				<section className='history-section'>
 					<h2>Wallet History</h2>
 					<button
@@ -398,14 +357,23 @@ function App() {
 
 					<h3>Transaction History</h3>
 					<table>
-						<TableHead 
-							items={['timestamp','from','to','amount']}>
-						</TableHead>
+						<TableHead
+							items={[
+								'timestamp',
+								'from',
+								'to',
+								'amount',
+							]}></TableHead>
 						<tbody>
 							{userTxs.map((tx, index) => (
-								<TableRow key={index}
-									items={[tx.timestamp,tx.address,tx.recipient,tx.amount]}
-								></TableRow>
+								<TableRow
+									key={index}
+									items={[
+										tx.timestamp,
+										tx.address,
+										tx.recipient,
+										tx.amount,
+									]}></TableRow>
 							))}
 						</tbody>
 					</table>
@@ -425,55 +393,5 @@ function App() {
 		</>
 	);
 }
-
-const BlockDiv = ({ blocks }) => {
-  return (
-    <div>
-      {blocks.map((block, blockIndex) => (
-        <div key={blockIndex}>
-          <h3>Block #{block.block_number}</h3>
-          <p><strong>Timestamp:</strong> {block.timestamp}</p>
-          <p><strong>Hash:</strong> {block.hash}</p>
-
-          <table>
-			{<TableHead items={['Tx', 'From', 'To', 'Amount']}></TableHead>}
-            <tbody>
-              {block.transactions.map((tx, index) => (
-				<TableRow key={index} items={[
-					tx.tx_number,
-					tx.address,
-					tx.recipient,
-					tx.amount
-				]}></TableRow>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const TableHead = ({ items }) => {
-	return (
-		<thead>
-			<tr>
-				{items.map((item, index) => (
-					<th key={index}>{item}</th>
-				))}
-			</tr>
-		</thead>
-	);
-};
-
-const TableRow = ({ items }) => {
-	return (
-		<tr>
-			{items.map((item, index) => (
-				<td key={index}>{item}</td>
-			))}
-		</tr>
-	);
-};
 
 export default App;
