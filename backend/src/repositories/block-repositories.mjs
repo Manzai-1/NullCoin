@@ -4,12 +4,6 @@ import blockchainModel from '../models/schema/blockchainModel.mjs';
 
 export default class BlockRepositories{
     listAllBlocks(){
-        blockchain.chain.forEach(block => {
-            block.data.forEach(tx => {
-                console.log(tx);
-            })
-        })
-        
         return parseChain(blockchain.chain);
     }
 

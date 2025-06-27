@@ -10,12 +10,12 @@ export default class Wallet {
 			const block = chain[i];
 
 			for (let transaction of block.data) {
-				if (transaction.input.address === address) hasMadeTransaction = true;
+				if (transaction.input?.address === address) hasMadeTransaction = true;
 
 				const amount = transaction.outputMap[address];
 
-				if (amount) {
-					total += amount;
+				if (amount !== undefined) {
+					total += (+amount);
 				}
 			}
 

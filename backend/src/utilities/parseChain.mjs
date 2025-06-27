@@ -19,3 +19,15 @@ export const parseChain = (chain) => {
 	});
 };
 
+export const parseTxs = (data) => {
+	return Object.values(data).map((tx, i) => {
+		const addresses = Object.keys(tx.outputMap);
+		return {
+			tx_number: i,
+			timestamp: new Date(tx.input.timestamp).toLocaleString('sv-SE'),
+			address: addresses[1],
+			recipient: addresses[0],
+			amount: tx.outputMap[addresses[0]],
+		};
+	});
+};

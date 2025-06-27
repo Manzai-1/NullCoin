@@ -98,3 +98,49 @@ Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:39:51 Success: u
 Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:39:53 Success: undefined - Message: newBlock is not defined
 Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:58:29 Success: undefined - Message: newBlock is not defined
 Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 14:59:39 Success: undefined - Message: newBlock is not defined
+Method: POST Url: /api/v1/wallet Date: 2025-06-24 Time: 18:53:47 Success: false - Message: Not enough funds!
+Method: POST Url: /api/v1/users Date: 2025-06-24 Time: 18:54:22 Success: undefined - Message: E11000 duplicate key error collection: nullcoin.users index: username_1 dup key: { username: "pelle" }
+Method: GET Url: /api/v1/mempool/mine Date: 2025-06-24 Time: 18:54:57 Success: false - Message: You are not authorized.
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 18:54:57 Success: false - Message: You are not authorized.
+Method: POST Url: /api/v1/auth Date: 2025-06-24 Time: 19:21:15 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-24 Time: 19:22:05 Success: false - Message: Username or password is wrong
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:13:29 Success: undefined - Message: data.map is not a function
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:15:04 Success: undefined - Message: data.map is not a function
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:16:01 Success: undefined - Message: data.map is not a function
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:21:26 Success: undefined - Message: map is not defined
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:21:59 Success: undefined - Message: data is not iterable
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:23:18 Success: undefined - Message: Spread syntax requires ...iterable[Symbol.iterator] to be a function
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:23:26 Success: undefined - Message: Spread syntax requires ...iterable[Symbol.iterator] to be a function
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:23:49 Success: undefined - Message: data is not iterable
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:24:30 Success: undefined - Message: data is not iterable
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:24:41 Success: undefined - Message: undefined is not iterable (cannot read property Symbol(Symbol.iterator))
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:24:51 Success: undefined - Message: Transactions is not defined
+Method: GET Url: /api/v1/mempool Date: 2025-06-24 Time: 20:25:03 Success: undefined - Message: Transactions is not defined
+Method: GET Url: /api/v1/mempool Date: 2025-06-25 Time: 02:20:12 Success: undefined - Message: data is not iterable
+Method: GET Url: /api/v1/mempool Date: 2025-06-25 Time: 18:27:03 Success: false - Message: You are not authorized.
+Method: GET Url: /api/v1/mempool Date: 2025-06-25 Time: 18:28:07 Success: false - Message: You are not authorized.
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 19:19:03 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 19:29:02 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:45:18 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:46:21 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:46:44 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:47:10 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:48:15 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:48:30 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:48:59 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:49:40 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:51:43 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:52:22 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 20:54:53 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 21:01:03 Success: false - Message: Username or password is wrong
+Method: POST Url: /api/v1/auth Date: 2025-06-25 Time: 21:27:33 Success: false - Message: Username or password is wrong
+Method: GET Url: /api/v1/wallet Date: 2025-06-25 Time: 21:32:16 Success: undefined - Message: jwt malformed
+Method: GET Url: /api/v1/wallet/history Date: 2025-06-25 Time: 21:32:22 Success: undefined - Message: jwt malformed
+Method: GET Url: /api/v1/mempool Date: 2025-06-25 Time: 21:32:33 Success: undefined - Message: jwt malformed
+Method: GET Url: /api/v1/blocks Date: 2025-06-25 Time: 21:32:34 Success: undefined - Message: jwt malformed
+Method: GET Url: /api/v1/wallet Date: 2025-06-25 Time: 21:34:28 Success: undefined - Message: jwt malformed
+Method: GET Url: /api/v1/wallet/history Date: 2025-06-25 Time: 21:34:29 Success: undefined - Message: jwt malformed
+Method: GET Url: /api/v1/mempool Date: 2025-06-25 Time: 21:34:30 Success: undefined - Message: jwt malformed
+Method: GET Url: /api/v1/blocks Date: 2025-06-25 Time: 21:34:32 Success: undefined - Message: jwt malformed
+Method: POST Url: /api/v1/wallet Date: 2025-06-25 Time: 23:55:54 Success: false - Message: Not enough funds!
+Method: POST Url: /api/v1/wallet Date: 2025-06-25 Time: 23:56:17 Success: false - Message: Not enough funds!

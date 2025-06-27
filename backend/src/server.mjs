@@ -42,7 +42,7 @@ const synchronize = async () => {
     blockchain.replaceChain(result.data);
   }
 
-  response = await fetch(`${ROOT_NODE}/api/v1/wallet/transactions`);
+  response = await fetch(`${ROOT_NODE}/api/v1/mempool`);
   if (response) {
     const result = await response.json();
     transactionPool.replaceMap(result.data);

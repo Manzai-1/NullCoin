@@ -9,6 +9,6 @@ import { authorizeRole } from '../middleware/authorizeRole.mjs';
 const router = express.Router();
 
 router.route('/').get(authenticateToken, listAllTransactions);
-router.route('/mine').get(authenticateToken, mineTransactions);
+router.route('/mine').get(authenticateToken, authorizeRole('miner', 'admin'), mineTransactions);
 
 export default router;
